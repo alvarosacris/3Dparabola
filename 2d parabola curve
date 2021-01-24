@@ -1,0 +1,77 @@
+#Este codigo sirve para definir una recta de una parabola,y da las coordenadas de los diferentes puntos. Ademas lo prepara para insertarlo en blender directamente.
+# Para hacer tu propia parabola tienes que modificar "RATE", que influira directamente en el numero de vertices de tu parabola. Modifica tambien el radio. El resultado son dos listas de tuples, la primera de vertices y la segunda de las permutaciones de los edges. 
+# Ademas, necesitas ajustar los terminos de la funcion de tu parabola de tipo (x-h)^2 = 4p(y-k). Para los valores h y k en R, las ramas irian en Y+. Recomiendo tenerla en esta posicion, pues dependiendo de la orientacion en el plano, la funcion cambia.  P es la distancia entre el foco y el vertice.
+
+#This code is used to define a line of a parabola, and gives the coordinates of the different points. It also prepares it to insert it in blender directly.
+# To make your own parabola you have to modify "RATE", which will directly influence the number of vertices of your parabola. Also modify the radius. The result is two lists of tuples, the first of vertices and the second of permutations of the edges.
+# Also, you need to adjust the terms of your parabola function of type (x-h) ^ 2 = 4p (y-k). For the h and k values in R, the branches would go in Y+. I recommend having it in this position, because depending on the orientation in the plane, the function changes. P is the distance between the focus and the vertex.
+
+
+listatuples=[]
+listaedges=[]
+coord=[]
+edgepairs=[]
+x=0
+y=0
+z=0
+i=0
+a=0
+j=0
+
+h=0
+k=30
+p=30
+rate=.25
+radio=15
+vertices=radio/rate
+edges=vertices-1
+
+#VERTEX
+def convert(listaguay): 
+    return tuple(listaguay) 
+    
+# i es para contar en los "while", "a" sirve para sacar la componente "y" Y ES 0 EN BLENDER en mi caso, depende de como lo coloques. Recomiendo de nuevo seguir la posicion en el video de youtube, pues sino tienes que cambiar el orden de las coordenadas.
+# def convert(lista) convierte las listas de coordenadas en tuples, para poder insertar lurgo los vertices en la consola.
+
+# i is to count in the "while", "a" serves to remove the component "y" AND IS 0 IN BLENDER in my case, it depends on how you place it. I recommend again following the position in the youtube video, otherwise you have to change the order of the coordinates.
+# def convert (list) converts the coordinate lists into tuples, in order to insert the vertices into the console.
+
+def parabola(a):
+  z = ((a**2)-h)/(4*p)+k
+  #en blender y se convierte en z
+  #z=(a**2+3600)/(120), es lo mismo pero simplificado
+  return(z)
+  
+# a es la componente x, utiilizada para sacar  y
+
+# a is the x component, used to get y
+
+while i <= radio:
+  #Componente x
+  coord.append(x)
+  x=x+rate
+  #Componente y
+  coord.append(y)
+  #Componente z
+  coord.append(parabola(a))
+  a=a+rate
+  
+  listatuples.append(convert(coord))
+  coord=[]
+  
+  i=i+rate
+  
+print(listatuples)
+
+#EDGES
+
+while j <= edges:
+  edgepairs.append(j)
+  edgepairs.append(j+1)
+ 
+  listaedges.append(convert(edgepairs))
+  edgepairs=[]
+
+  j=j+1
+  
+print(listaedges)
